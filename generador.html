@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generador de invitaciones · Pau &amp; André</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/assets/img/monograma.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <style>
+    body { background: var(--paper-2); }
+    .gen { max-width: 1000px; margin: 0 auto; padding: 48px var(--gutter) 96px; }
+    .gen h1 { font-family: var(--script); font-weight: 400; font-size: clamp(2.6rem, 6vw, 3.6rem); color: var(--gold-dark); margin: 0; text-align: center; }
+    .gen > p { text-align: center; color: var(--ink-soft); margin-top: 0; }
+    .panel { background: var(--white); border: 1px solid rgba(176,141,87,.3); padding: clamp(20px, 4vw, 36px); margin-top: 28px; box-shadow: var(--shadow); }
+    .panel h2 { margin: 0 0 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; font-size: .95rem; }
+    label { display: block; font-size: .8em; text-transform: uppercase; letter-spacing: .14em; font-weight: 600; margin-bottom: 4px; }
+    input, textarea, select {
+      width: 100%; font: inherit; font-size: 1rem; padding: .6em .8em; color: var(--ink);
+      border: 1px solid #d8cdb9; border-radius: var(--radius); background: var(--paper);
+    }
+    textarea { min-height: 160px; font-family: ui-monospace, Menlo, monospace; font-size: .85rem; }
+    .row { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 720px) { .row { grid-template-columns: 2fr 1fr 1.4fr; } }
+    .out { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .out code { flex: 1 1 100%; word-break: break-all; background: var(--paper); padding: .6em .8em; border-radius: var(--radius); font-size: .85rem; }
+    .out .btn { margin-top: 0; }
+    .hint { font-size: .85em; color: var(--ink-soft); }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: .9rem; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #e6dccb; vertical-align: middle; }
+    th { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; }
+    td .btn { margin: 2px; padding: .5em 1em; }
+    .table-wrap { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <main class="gen">
+    <h1>Generador de invitaciones</h1>
+    <p>Crea un enlace personalizado para cada invitado, con su nombre y número de pases.</p>
+
+    <section class="panel">
+      <h2>Una invitación</h2>
+      <div class="row">
+        <div><label for="gName">Nombre del invitado</label><input id="gName" placeholder="Familia López Hernández" autocomplete="off"></div>
+        <div><label for="gSeats">Pases</label><input id="gSeats" type="number" min="1" max="20" value="2"></div>
+        <div><label for="gPhone">WhatsApp (opcional)</label><input id="gPhone" inputmode="tel" placeholder="55 1234 5678"></div>
+      </div>
+      <div class="out" id="single" hidden>
+        <code id="singleLink"></code>
+        <button class="btn" type="button" id="singleCopy">Copiar enlace</button>
+        <a class="btn btn--solid" id="singleWa" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <a class="btn" id="singleOpen" target="_blank" rel="noopener">Ver invitación</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Lista de invitados</h2>
+      <p class="hint">Pega tu lista (puedes copiarla directo de Excel o Google Sheets): una fila por invitado con <strong>nombre, pases, teléfono</strong>. El teléfono es opcional.</p>
+      <textarea id="bulk" placeholder="Familia López Hernández, 4, 5512345678&#10;Ana Torres, 1&#10;Juan y María Pérez	2	5587654321"></textarea>
+      <div class="out">
+        <button class="btn btn--solid" type="button" id="bulkGo">Generar enlaces</button>
+        <button class="btn" type="button" id="bulkCsv" hidden>Descargar CSV</button>
+      </div>
+      <div class="table-wrap"><table id="bulkTable" hidden>
+        <thead><tr><th>Invitado</th><th>Pases</th><th>Enlace</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </section>
+
+    <section class="panel">
+      <h2>Mensaje de WhatsApp</h2>
+      <p class="hint">Usa <code>{nombre}</code>, <code>{pases}</code> y <code>{link}</code>; se reemplazan automáticamente.</p>
+      <textarea id="msg" style="min-height:120px;font-family:inherit;font-size:1rem">¡Hola {nombre}! 💍 Pau y André nos casamos el sábado 15 de mayo de 2027 y nos encantaría que nos acompañes. Tu pase es para {pases}. Aquí está tu invitación: {link}</textarea>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    const $ = s => document.querySelector(s);
+    const base = location.origin + '/';
+
+    const encode = (name, seats) => {
+      const json = JSON.stringify({ n: name, p: seats });
+      return btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    };
+    const linkFor = (name, seats) => `${base}?i=${encode(name, seats)}`;
+    const seatsText = n => n === 1 ? '1 persona' : `${n} personas`;
+    const cleanPhone = p => {
+      let d = String(p || '').replace(/\D/g, '');
+      if (d.length === 10) d = '52' + d;          // número mexicano a 10 dígitos
+      return d;
+    };
+    const waFor = (name, seats, phone, link) => {
+      const text = $('#msg').value
+        .replaceAll('{nombre}', name).replaceAll('{pases}', seatsText(seats)).replaceAll('{link}', link);
+      const p = cleanPhone(phone);
+      return `https://wa.me/${p}?text=${encodeURIComponent(text)}`;
+    };
+
+    const toast = $('#toast'); let t;
+    const show = m => { toast.textContent = m; toast.classList.add('is-visible'); clearTimeout(t); t = setTimeout(() => toast.classList.remove('is-visible'), 2000); };
+    const copy = async s => { try { await navigator.clipboard.writeText(s); show('Enlace copiado'); } catch { prompt('Copia el enlace:', s); } };
+
+    // --- individual
+    function updateSingle() {
+      const name = $('#gName').value.trim();
+      const seats = Math.max(1, parseInt($('#gSeats').value, 10) || 1);
+      if (!name) { $('#single').hidden = true; return; }
+      const link = linkFor(name, seats);
+      $('#singleLink').textContent = link;
+      $('#singleOpen').href = link;
+      $('#singleWa').href = waFor(name, seats, $('#gPhone').value, link);
+      $('#single').hidden = false;
+    }
+    ['#gName', '#gSeats', '#gPhone', '#msg'].forEach(s => $(s).addEventListener('input', updateSingle));
+    $('#singleCopy').addEventListener('click', () => copy($('#singleLink').textContent));
+
+    // --- lista
+    let rows = [];
+    function parse(text) {
+      return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+        const parts = l.split(/\t|,|;/).map(s => s.trim());
+        const name = parts[0];
+        const seats = Math.max(1, parseInt(parts[1], 10) || 1);
+        const phone = parts[2] || '';
+        return { name, seats, phone };
+      }).filter(r => r.name && !/^nombre$/i.test(r.name));
+    }
+    function renderBulk() {
+      rows = parse($('#bulk').value).map(r => ({ ...r, link: linkFor(r.name, r.seats) }));
+      const tb = $('#bulkTable tbody'); tb.textContent = '';
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        const c = (txt) => { const td = document.createElement('td'); td.textContent = txt; tr.append(td); return td; };
+        c(r.name); c(String(r.seats));
+        const lt = document.createElement('td'); const a = document.createElement('a'); a.href = r.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Ver'; lt.append(a); tr.append(lt);
+        const act = document.createElement('td');
+        const cb = document.createElement('button'); cb.type = 'button'; cb.className = 'btn'; cb.textContent = 'Copiar'; cb.onclick = () => copy(r.link);
+        const wa = document.createElement('a'); wa.className = 'btn btn--solid'; wa.target = '_blank'; wa.rel = 'noopener'; wa.textContent = 'WhatsApp'; wa.href = waFor(r.name, r.seats, r.phone, r.link);
+        act.append(cb, wa); tr.append(act);
+        tb.append(tr);
+      });
+      $('#bulkTable').hidden = !rows.length;
+      $('#bulkCsv').hidden = !rows.length;
+      show(`${rows.length} invitaciones generadas`);
+    }
+    $('#bulkGo').addEventListener('click', renderBulk);
+    $('#bulkCsv').addEventListener('click', () => {
+      const esc = s => `"${String(s).replace(/"/g, '""')}"`;
+      const csv = ['nombre,pases,telefono,enlace,whatsapp']
+        .concat(rows.map(r => [r.name, r.seats, r.phone, r.link, waFor(r.name, r.seats, r.phone, r.link)].map(esc).join(',')))
+        .join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+      a.download = 'invitaciones-pau-andre.csv'; a.click();
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pau &amp; André · 15 de mayo de 2027</title>
+  <meta name="description" content="Paulina Montes y André Villalobos se casan el sábado 15 de mayo de 2027 en Jardín Nativa, Jiutepec, Morelos. ¡Celebra con nosotros!">
+  <meta name="theme-color" content="#f6f2ea">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pau &amp; André · Nuestra boda">
+  <meta property="og:description" content="Sábado 15 de mayo de 2027 · Jardín Nativa, Jiutepec, Morelos">
+  <meta property="og:image" content="/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/assets/img/monograma.webp" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <!-- ============ SOBRE / PORTADA ============ -->
+  <div class="envelope" id="envelope" role="dialog" aria-label="Abrir invitación">
+    <div class="envelope__inner">
+      <img class="envelope__mono" src="/assets/img/monograma.webp" alt="Monograma A y P" width="300" height="202">
+      <p class="eyebrow">Nuestra boda</p>
+      <h1 class="script envelope__names">Pau <span>&amp;</span> André</h1>
+      <p class="envelope__guest" id="envelopeGuest" hidden></p>
+      <button class="btn btn--solid" id="openInvite" type="button">Abrir invitación</button>
+      <p class="envelope__hint">Activa el sonido para escuchar nuestra canción</p>
+    </div>
+  </div>
+
+  <!-- Botón de música -->
+  <button class="music" id="musicBtn" type="button" aria-label="Reproducir música" aria-pressed="false" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  </button>
+  <audio id="song" src="/assets/audio/cancion.mp3" preload="none" loop></audio>
+
+  <!-- Navegación (escritorio) -->
+  <nav class="nav" id="nav" aria-label="Secciones">
+    <a class="nav__brand script" href="#inicio">P &amp; A</a>
+    <ul class="nav__links">
+      <li><a href="#evento">Evento</a></li>
+      <li><a href="#itinerario">Itinerario</a></li>
+      <li><a href="#hospedaje">Hospedaje</a></li>
+      <li><a href="#regalos">Regalos</a></li>
+      <li><a href="#vestimenta">Vestimenta</a></li>
+      <li><a href="#rsvp" class="nav__cta">Confirmar</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <header class="hero" id="inicio">
+      <picture class="hero__bg">
+        <img src="/assets/img/foto-01.jpg" alt="Pau y André sentados en una banca en el parque" fetchpriority="high">
+      </picture>
+      <div class="hero__content">
+        <p class="eyebrow eyebrow--light">Nuestra boda</p>
+        <h2 class="script hero__names">Pau <span>&amp;</span> André</h2>
+        <p class="hero__date">Sábado · 15 · Mayo · 2027</p>
+        <div class="countdown" id="countdown" aria-live="polite">
+          <div><strong data-cd="d">000</strong><span>Días</span></div>
+          <div><strong data-cd="h">00</strong><span>Horas</span></div>
+          <div><strong data-cd="m">00</strong><span>Minutos</span></div>
+          <div><strong data-cd="s">00</strong><span>Segundos</span></div>
+        </div>
+      </div>
+      <a class="hero__scroll" href="#bienvenida" aria-label="Bajar"><span></span></a>
+    </header>
+
+    <!-- ============ PASE PERSONALIZADO ============ -->
+    <section class="pass reveal" id="pase" hidden>
+      <div class="pass__card">
+        <p class="eyebrow">Pase de entrada</p>
+        <p class="pass__name" id="passName"></p>
+        <p class="pass__seats"><span id="passSeats"></span></p>
+        <p class="pass__note">Te pedimos ser respetuoso con los lugares que hemos asignado para ti.</p>
+      </div>
+    </section>
+
+    <!-- ============ BIENVENIDA ============ -->
+    <section class="section welcome" id="bienvenida">
+      <div class="container split">
+        <figure class="frame reveal">
+          <img src="/assets/img/foto-10.jpg" alt="Pau y André abrazados sonriendo" loading="lazy">
+        </figure>
+        <div class="welcome__text reveal">
+          <img class="mono" src="/assets/img/monograma.webp" alt="" width="220" height="148" loading="lazy">
+          <p class="lead">La dicha compartida se disfruta el doble, queremos invitarte a ser testigo del inicio de nuestra vida juntos.</p>
+          <p class="parents script">Paulina Montes de Oca Gómez <span>&amp;</span> André Villalobos Lois</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SAVE THE DATE ============ -->
+    <section class="section savedate">
+      <div class="container narrow reveal">
+        <p class="eyebrow">Celebra con nosotros</p>
+        <img class="savedate__img" src="/assets/img/save-the-date.webp" alt="Save the date: 15 · 05 · 27" loading="lazy">
+        <h3 class="title">Sábado 15 de mayo de 2027</h3>
+        <p class="muted">Nuestro gran día</p>
+        <a class="btn" id="addToCal" href="#" download="boda-pau-andre.ics">Agregar al calendario</a>
+      </div>
+    </section>
+
+    <!-- Frase 1 -->
+    <section class="quote reveal">
+      <img class="quote__deco" src="/assets/img/acuarela-flores-1.webp" alt="" loading="lazy">
+      <blockquote>De la suerte de encontrarnos, a la fortuna de <em>tenernos</em>.</blockquote>
+    </section>
+
+    <!-- ============ CEREMONIA Y RECEPCIÓN ============ -->
+    <section class="section venue" id="evento">
+      <div class="container split split--reverse">
+        <figure class="photo reveal">
+          <img src="/assets/img/foto-05.jpg" alt="Pau y André tomados de la mano con su perrita" loading="lazy">
+        </figure>
+        <div class="venue__text reveal">
+          <h2 class="section-title script">Ceremonia y Recepción</h2>
+          <h3 class="title">Jardín Nativa</h3>
+          <address>Paso de Las Fuentes, Col. Valle Verde,<br>62569 Jiutepec, Mor.</address>
+          <a class="btn" href="https://maps.app.goo.gl/285JMPF5CcxviSnE8" target="_blank" rel="noopener">Ver ubicación</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ITINERARIO ============ -->
+    <section class="section itinerary" id="itinerario">
+      <div class="container">
+        <h2 class="section-title script reveal">Itinerario</h2>
+        <ol class="timeline">
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 40c6-4 38-4 44 0l-4 8H14z"/><circle cx="27" cy="30" r="7"/><circle cx="37" cy="30" r="7"/><path d="M8 48h48"/></svg>
+            <h3>Ceremonia</h3><time>1:30 PM</time>
+          </li>
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 14h26L25 32zM25 32v18M17 50h16"/><path d="M38 26h14l-2 26H40z"/><path d="M44 26l6-14"/><circle cx="36" cy="16" r="4"/></svg>
+            <h3>Coctel</h3><time>3:00 PM</time>
+          </li>
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 56V28a18 18 0 0 1 36 0v28"/><path d="M10 56h10M44 56h10"/><circle cx="20" cy="20" r="3"/><circle cx="32" cy="12" r="3"/><circle cx="44" cy="20" r="3"/><circle cx="15" cy="34" r="2.5"/><circle cx="49" cy="34" r="2.5"/></svg>
+            <h3>Recepción</h3><time>4:00 PM</time>
+          </li>
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="34" r="16"/><circle cx="32" cy="34" r="10"/><path d="M10 14v14a4 4 0 0 0 4 4v20M14 14v12M18 14v14a4 4 0 0 1-4 4"/><path d="M52 14c-4 2-5 10-5 18h5v20"/></svg>
+            <h3>Comida</h3><time>4:30 PM</time>
+          </li>
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6v10"/><circle cx="32" cy="34" r="18"/><path d="M14 34h36M32 16c-8 8-8 28 0 36M32 16c8 8 8 28 0 36M17 25h30M17 43h30"/><path d="M52 10l1.5 3 3 1.5-3 1.5L52 19l-1.5-3-3-1.5 3-1.5zM10 46l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></svg>
+            <h3>Fiesta</h3><time>6:00 PM</time>
+          </li>
+          <li class="reveal">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 58l2-26M42 58l-2-20"/><path d="M24 32l-8-8M24 32l0-12M24 32l8-8M24 32l-11 0M24 32l11 0M24 32l-8 8M24 32l8 8"/><path d="M40 38l-5-5M40 38v-8M40 38l5-5M40 38h-8M40 38h8"/><circle cx="50" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="54" cy="24" r="1.5"/></svg>
+            <h3>Fin del evento</h3><time>1:00 AM</time>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Galería 1 -->
+    <section class="gallery">
+      <div class="gallery__grid">
+        <img src="/assets/img/foto-11.jpg" alt="Pau y André caminando en el parque" loading="lazy">
+        <img src="/assets/img/foto-04.jpg" alt="Pau y André con su perrita y un letrero" loading="lazy">
+        <img src="/assets/img/foto-03.jpg" alt="Pau y André sentados en el pasto" loading="lazy">
+      </div>
+    </section>
+
+    <!-- Frase 2 -->
+    <section class="quote reveal">
+      <img class="quote__deco quote__deco--right" src="/assets/img/acuarela-flores-2.webp" alt="" loading="lazy">
+      <blockquote>Mientras uno está vivo, uno debe <em>amar</em> lo más que pueda.</blockquote>
+    </section>
+
+    <!-- ============ HOSPEDAJE ============ -->
+    <section class="section lodging" id="hospedaje">
+      <div class="lodging__bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="card reveal">
+          <h2 class="section-title script">Sugerencia de hospedaje</h2>
+          <h3 class="title">Ex Hacienda Santa Cecilia</h3>
+          <address>5 de Febrero esq. El Zapote, Centro,<br>62550 Ejido del Centro, Mor.</address>
+          <p class="code">Código de reserva
+            <button type="button" class="copy" data-copy="PAUYANDRE"><strong>PAUYANDRE</strong><span>Copiar</span></button>
+          </p>
+          <a class="btn" href="https://maps.app.goo.gl/zK9L6A62GYA1T9um6" target="_blank" rel="noopener">Ver ubicación</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LUNA DE MIEL ============ -->
+    <section class="section gifts" id="regalos">
+      <div class="container split">
+        <figure class="photo reveal">
+          <img src="/assets/img/foto-12.jpg" alt="Pau y André abrazados" loading="lazy">
+        </figure>
+        <div class="reveal">
+          <h2 class="section-title script">Luna de miel</h2>
+          <p class="lead">Suma kilómetros a nuestra luna de miel; puedes hacerlo a las siguientes cuentas:</p>
+          <div class="accounts">
+            <div class="account">
+              <img src="/assets/img/bbva.png" alt="BBVA" width="120" height="36" loading="lazy">
+              <p class="account__name">Paulina Montes de Oca Gómez</p>
+              <p class="account__label">CLABE</p>
+              <button type="button" class="copy" data-copy="012282028931749561"><strong>012 282 028931749561</strong><span>Copiar</span></button>
+            </div>
+            <div class="account">
+              <img src="/assets/img/banamex.png" alt="Banamex" width="140" height="36" loading="lazy">
+              <p class="account__name">André Villalobos Lois</p>
+              <p class="account__label">CLABE</p>
+              <button type="button" class="copy" data-copy="002180902431445810"><strong>0021 8090 2431 4458 10</strong><span>Copiar</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VESTIMENTA ============ -->
+    <section class="section dress" id="vestimenta">
+      <div class="container split split--reverse">
+        <figure class="photo reveal">
+          <img src="/assets/img/foto-13.jpg" alt="Pau y André sentados en una terraza" loading="lazy">
+        </figure>
+        <div class="reveal">
+          <h2 class="section-title script">Código de vestimenta</h2>
+          <h3 class="title">Garden Formal</h3>
+          <p>Para que disfrutes el clima, te sugerimos telas ligeras y basarte en el board del link de abajo.</p>
+          <ul class="tips">
+            <li>Tacones anchos</li>
+            <li>Protector solar</li>
+            <li>Repelente de mosquitos</li>
+          </ul>
+          <a class="btn" href="https://pin.it/Ylmf53UsV" target="_blank" rel="noopener">Ver inspiración en Pinterest</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frase 3 -->
+    <section class="quote quote--photo reveal">
+      <img class="quote__photo" src="/assets/img/foto-14.jpg" alt="" loading="lazy">
+      <blockquote>Tú eres mi más grande <em>aventura</em>.</blockquote>
+    </section>
+
+    <!-- ============ CAPTURA EL AMOR ============ -->
+    <section class="section photos-cta">
+      <div class="container narrow reveal">
+        <svg class="icon-lg" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 20h12l4-6h16l4 6h12v32H8z"/><circle cx="32" cy="35" r="11"/><circle cx="32" cy="35" r="5"/></svg>
+        <h2 class="section-title script">Captura el amor</h2>
+        <p>Comparte con nosotros todas tus fotografías del evento escaneando el QR que encontrarás en tu mesa, o da click en el botón para acceder al álbum.</p>
+        <a class="btn" href="https://photos.app.goo.gl/8jzvY53wfVF9mnrS9" target="_blank" rel="noopener">Abrir álbum de fotos</a>
+      </div>
+    </section>
+
+    <!-- Galería 2 -->
+    <section class="gallery gallery--bw">
+      <div class="gallery__grid">
+        <img src="/assets/img/foto-15.jpg" alt="Pau y André caminando junto al lago" loading="lazy">
+        <img src="/assets/img/foto-06.jpg" alt="Pau y André abrazados en blanco y negro" loading="lazy">
+        <img src="/assets/img/foto-07.jpg" alt="Pau y André en una terraza" loading="lazy">
+        <img src="/assets/img/foto-08.jpg" alt="Manos de Pau y André con el anillo de compromiso" loading="lazy">
+      </div>
+    </section>
+
+    <!-- ============ NO NIÑOS / SORPRESAS ============ -->
+    <section class="section notes">
+      <div class="container two-cards">
+        <div class="card reveal">
+          <h3 class="title">No niños</h3>
+          <p>Amamos a sus pequeños, pero queremos que este día tomen un descanso y se diviertan con nosotros.</p>
+        </div>
+        <div class="card reveal">
+          <h3 class="title">Sorpresas</h3>
+          <p>Si deseas preparar alguna sorpresa o tener un detalle especial para los novios, te pedimos contactar previamente a la wedding planner para su autorización y adecuada coordinación:</p>
+          <p class="contacts">
+            <a href="https://wa.me/525567857138" target="_blank" rel="noopener">Ceci Arriaga · 55 6785 7138</a>
+            <a href="https://wa.me/525532511811" target="_blank" rel="noopener">Monse Mata · 55 3251 1811</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RSVP ============ -->
+    <section class="section rsvp" id="rsvp">
+      <div class="container narrow reveal">
+        <svg class="icon-lg" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 26l24-16 24 16v28H8z"/><path d="M8 26l24 16 24-16"/><path d="M32 34c-6-4-8-8-5-10 2-1.5 4 0 5 2 1-2 3-3.5 5-2 3 2 1 6-5 10z"/></svg>
+        <h2 class="section-title script">Confirma tu asistencia</h2>
+        <p>Llena el siguiente formulario y no olvides dar click en el botón de enviar; nosotros revisaremos tu confirmación y te agregaremos a nuestra lista de invitados.</p>
+        <p class="muted">Te pedimos ser respetuoso con los lugares que ya hemos asignado para ti en el pase de entrada que te hemos enviado.</p>
+        <a class="btn btn--solid" href="https://docs.google.com/forms/d/e/1FAIpQLScoDCWzVWqa5dMUo03wMaBGmhUlqXj5Xe5tgddKsEz8fuZKuQ/viewform" target="_blank" rel="noopener">Confirmar asistencia</a>
+      </div>
+    </section>
+
+    <!-- ============ CIERRE ============ -->
+    <section class="closing">
+      <img class="closing__bg" src="/assets/img/foto-09.jpg" alt="">
+      <div class="closing__content reveal">
+        <h2 class="script">¡No faltes!</h2>
+        <p>Te esperamos con mucho cariño…</p>
+        <img src="/assets/img/anillos.png" alt="" width="180" height="60" loading="lazy">
+        <p class="script closing__names">Pau &amp; André</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Pau &amp; André · 15.05.2027 · Jiutepec, Morelos</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>
