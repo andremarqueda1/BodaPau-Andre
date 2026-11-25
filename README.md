@@ -14,7 +14,7 @@ Es una versión reconstruida de la invitación original, con el mismo contenido 
 
 ## Invitaciones personalizadas
 
-Abre `https://TU-DOMINIO/generador`:
+Abre **https://www.bodapauandre.app/generador**:
 
 - **Una invitación:** escribe el nombre, los pases y (opcional) el WhatsApp. Se genera el enlace y un botón para mandarlo por WhatsApp con el mensaje ya escrito.
 - **Lista de invitados:** pega la lista desde Excel/Sheets (`nombre, pases, teléfono`), genera todos los enlaces y descárgalos en CSV.
