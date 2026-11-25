@@ -26,7 +26,8 @@ También funcionan enlaces legibles: `/?n=Familia%20López&p=4`.
 
 ## Música
 
-Coloca un archivo `assets/audio/cancion.mp3` (de una canción que tengan derecho a usar). Si existe, aparece el botón de música y suena al abrir la invitación. Por derechos de autor, el MP3 no se incluye en el repositorio (`*.mp3` está en `.gitignore`; para publicarlo quita esa línea).
+`assets/audio/cancion.mp3` — "Married Life" (de *Up*, Michael Giacchino), versión de L'Orchestra Cinematique.
+Suena al abrir la invitación y se puede pausar con el botón flotante. Para cambiarla, reemplaza ese archivo con el mismo nombre.
 
 ## Editar contenido
 
